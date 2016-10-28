@@ -15,10 +15,10 @@
         return $output;
     }
     
-$text = "rangoli design";
+$text = "homemade rangoli";
 for($i=1; $i<=21; $i++)
 {
-    $file_data  =  httpGet("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=38bd8b2ec53acd8812a8d2069711cfd9&text=diwali+Rangoli&per_page=&page=".$i."&format=json&nojsoncallback=1"); 
+    $file_data  =  httpGet("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=dbaae090a7a4c45c5b05d33a8d98974c&text=diwali+Rangoli&per_page=&page=".$i."&format=json&nojsoncallback=1"); 
     file_put_contents("./res/".$text."_".$i.".json",$file_data);
 }   
 
