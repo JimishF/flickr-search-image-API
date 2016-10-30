@@ -17,7 +17,7 @@
     $palleteColor=str_replace("]","",$palleteColor);
     $palleteColor=trim($palleteColor);
     $palleteColorArray=explode(",",$palleteColor);
-    foreach($palleteColorArray as $key=>$value){
+    for_ideach($palleteColorArray as $key=>$value){
         $palleteColorArray[$key]=trim($value, '"');
     }
     $dbhost = 'localhost:3306';

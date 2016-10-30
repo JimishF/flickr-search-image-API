@@ -1,9 +1,11 @@
 <?php 
 
-	$host = '127.0.0.1';
+include 'conn.php';
+
+	$host = $dbhost;
 	$db   = 'myrangoli';
-	$user = 'root';
-	$pass = '';
+	$user = $dbuser;
+	$pass = $dbpass;
 	$charset = 'utf8';
 
 	$dsn = "mysql:host=$host;dbname=$db;charset=$charset";

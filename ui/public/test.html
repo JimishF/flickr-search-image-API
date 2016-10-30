@@ -104,7 +104,7 @@
                 <div class="row">
 
                         <div class="col s12  input-field">
-                            <input id="text" type="text" name="text" class="validate" length="100">
+                            <input id="text" type="text" name="text" class="validate" required length="100">
                             <label for="text">Describe Rangoli in short</label>
                         </div>
                 <div class="col s6">
@@ -134,7 +134,7 @@
                         <div class="file-field  col s12  input-field">
                               <div id="btnselfile" class="btn blue col s12 ">
                                 <span>Select Rangoli Photo</span>
-                                    <input type="file" id="image_selector" />
+                                    <input name="btnselfile" type="file" id="image_selector" />
                               </div>
 
                             <div style="height: 15px;" class="progress blue lighten-5">
@@ -217,7 +217,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <button class="btn blue darken-4 waves-effect waves-light col s12"> Participate in Competition </button>
+                            <button class="btn blue darken-4 waves-effect waves-light col s12" id="sbmtbtn"> Participate in Competition </button>
                             <hr>
                             <small style="margin-left: 5px;" class="grey-text text-darken-2">By clicking on this, you agree with<a> terms &amp; conditions </a> of competition. </small>   
                         </div>
@@ -248,6 +248,47 @@
             
 
         <script>
+    function getInfo(){
+    
+      var image = document.getElementById('image_preview');
+            image.crossOrigin = "Anonymous";
+            var colorThief = new ColorThief();
+            var dominantArray=colorThief.getColor(image);
+            var dominantHex=rgbToHex(dominantArray[0],dominantArray[1],dominantArray[2]);
+            var n_match  = ntc.name("#"+dominantHex);
+            var dominantColor=n_match[1];
+            var paletteHex=[];
+            
+       
+            var pelleteArray=colorThief.getPalette(image);  
+            var paletteColorArray=[];    
+            
+            for(var i=0;i<9;i++){
+                paletteHex[i] = rgbToHex(pelleteArray[i][0],pelleteArray[i][1],pelleteArray[i][2]);
+                var nmatch  = ntc.name("#"+paletteHex[i]);
+                paletteColorArray.push(nmatch[1]);
+            }
+        
+          console.log(dominantColor);
+          STATE.colorData = {
+            "dominantColor" : dominantColor,
+            "dominantHex" : dominantHex,
+            "paletteColorArray":paletteColorArray,
+            "paletteHex" : paletteHex
+          }
+          console.log(JSON.stringify(paletteColorArray));
+          console.log(JSON.stringify(paletteHex));
+      //post the data
+
+    }
+    function rgbToHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
+    function toHex(n) {
+    n = parseInt(n,10);
+    if (isNaN(n)) return "00";
+    n = Math.max(0,Math.min(n,255));
+    return "0123456789ABCDEF".charAt((n-n%16)/16)
+          + "0123456789ABCDEF".charAt(n%16);
+    }
         STATE = {
             validRedirect : true,
             photox : false,
@@ -276,8 +317,8 @@ $(document).ready(function(){
                     var data = e.target.result.substr(e.target.result.indexOf(",") + 1, e.target.result.length);
                     $("#image_preview").attr("src", e.target.result);
 
-                    return;
-
+                    getInfo();
+                    // return;
                     // console.log(data);
                     $.ajax({
                         url: 'https://api.imgur.com/3/image',
@@ -314,9 +355,13 @@ $(document).ready(function(){
                             return xhr;
                           },
                         success: function(response) {
+                            STATE.res = 
+                            {
+                                title   : $("#title").text(),
+                                url     : response.data.link,
+                                id :   response.data.id
+                            }
 
-                            var title   = $("#title").text();
-                            var url     = response.data.link;
                             var sq_url  = response.data.link;
 
                             sq_url = sq_url.replace(".png","b.png");
@@ -325,8 +370,10 @@ $(document).ready(function(){
                             sq_url = sq_url.replace(".bmp","b.bmp");
                             sq_url = sq_url.replace(".tiff","b.tiff");
                             
+                            STATE.res.sq_url = sq_url;
                             STATE.photox = true;
                             
+
                             // $("#image_preview_2").attr("src", response.data.link);
 
                         }, error: function() {
@@ -353,9 +400,24 @@ $(document).ready(function(){
                       });
 
                 $("#mainForm").submit(function(){
+                    console.log(STATE.photox);
+                    // return false;
                     if( $(this).valid() ){
-                        console.log($(this).serialize());
-                    // $.post("./service/newimage.php",{ title:title,imgUrl:url,source:'i',sq_url:sq_url,f_data =  });
+                        if(STATE.photox != true){
+                            alert("Click on \"SELECT RANGOLI PHOTO\" button.");
+                            $("#image_selector")[0].focus();
+                            return false;
+                        }
+                        $("#sbmtbtn").attr("disabled","");
+                        $("#sbmtbtn").text("Submitting Your Rangoli..");
+                        var f_data = $("#mainForm").serialize();
+                        $.post("./service/newimage.php",
+                        { 
+                            state_data : STATE,
+                            f_data : f_data
+                        }).done(function(d){
+                            alert("done");
+                        });
                     }
                      return false;
                 });
@@ -368,7 +430,7 @@ $(document).ready(function(){
                 
                 $('input#input_text').characterCounter();
 
-                  $('.datepicker').pickadate({
+            $('.datepicker').pickadate({
                     selectMonths: true, 
                     selectYears: 80,
                     max:new Date()
