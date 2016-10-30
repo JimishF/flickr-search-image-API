@@ -3,6 +3,8 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
  	header("location:/");
 }
 include 'conn.php';
+try{
+
 
 	$host = $dbhost;
 	$db   = 'myrangoli';
@@ -71,4 +73,10 @@ include 'conn.php';
 	// print_r( $text );
 	// exit;
 	// $stmt = $pdo->query('SELECT * from photos where del_status = 0 ORDER BY RAND() LIMIT 16');
+
+		} catch ( $e ){
+			print_r($e);
+			echo $e->getMessage();
+		}
+	
  ?>
