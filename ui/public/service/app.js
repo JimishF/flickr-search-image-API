@@ -92,7 +92,7 @@ function imgloaded( self ){
 				   					var newCard = document.createElement('div');
 				   					var ref = data[i].id;
 				   					$(newCard).attr("class","col s6 m4 l3");
-				   					var htm = '<div class="card"><div class="card-image "><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="init_load_img" />  <img src="'+parseSquare(data[i].imgUrl)+'" style="display:none" onload="imgloaded(this)" class="final_load_img materialboxed" /> <div class="card-content">'+data[i].title +'</div></div></div>';
+				   					var htm = '<div class="card"><div class="card-image "><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="init_load_img" />  <img src="'+parseSquare(data[i].sq_url)+'" style="display:none" onload="imgloaded(this)" class="final_load_img materialboxed" /> <div class="card-content">'+data[i].title +'</div></div></div>';
 				   						$(newCard).html( htm );
 									   		$("#mainData").append($(newCard));		
 				   				}
@@ -148,7 +148,7 @@ function imgloaded( self ){
 				});
 		});
 
-	
+		$("#noResults").hide();
 		$('main').trigger('scroll');
 	});
 		
