@@ -4,8 +4,22 @@
     $id_from_src=$_POST["id"];
     $dominantHex=$_POST["dominant_hex"];
     $dominantColor=$_POST["dominant_color"];
-    $palleteHex=mysql_real_escape_string($_POST["palette_hex"]);
-    $palleteColor=mysql_real_escape_string($_POST["palette_color"]);
+    $palleteHex=$_POST["palette_hex"];
+    $palleteHex=str_replace("[","",$palleteHex);
+    $palleteHex=str_replace("]","",$palleteHex);
+    $palleteHex=trim($palleteHex);
+    $palleteHexArray=explode(",",$palleteHex);
+    foreach($palleteHexArray as $key=>$value){
+        $palleteHexArray[$key]=trim($value, '"');
+    }
+    $palleteColor=$_POST["palette_color"];
+    $palleteColor=str_replace("[","",$palleteColor);
+    $palleteColor=str_replace("]","",$palleteColor);
+    $palleteColor=trim($palleteColor);
+    $palleteColorArray=explode(",",$palleteColor);
+    foreach($palleteColorArray as $key=>$value){
+        $palleteColorArray[$key]=trim($value, '"');
+    }
     $dbhost = 'localhost:3306';
     $dbuser = 'root';
     $dbpass = '';
@@ -17,9 +31,13 @@
     while($row = mysql_fetch_assoc($IdResult)){
         $id=$row["id"];
     }
-    $insQuery="INSERT INTO `img_meta` (`id`, `hex_dominant`, `color_dominant`, `is_dominant`, `hex_palette`, `color_palette`, `pic_id`) VALUES (".$id.", '".$dominantHex."', '".$dominantColor."', '1', '".$palleteHex."', '".$palleteColor."', '".$id_from_src."');";
+    $insQuery="INSERT INTO `img_meta` (`id`, `hex`, `color`, `is_dominant`, `pic_id`) VALUES (NULL, '".$dominantHex."', '".$dominantColor."', '1', '".$id_from_src."');";
     $retval = mysql_query( $insQuery, $conn );
     //echo $i++."Entered data successfully--".$id."<br/>";
+    foreach($palleteHexArray as $key=>$value){
+        $insPallete="INSERT INTO `img_meta` (`id`, `hex`, `color`, `is_dominant`, `pic_id`) VALUES (NULL, '".$palleteHexArray[$key]."', '".$palleteColorArray[$key]."', '0', '".$id_from_src."');";
+        $retval = mysql_query( $insPallete, $conn );
+    }
     $getNextIdQuery="select `id_from_src` from photos WHERE id>".$id." LIMIT 1";
     $nextIdResult = mysql_query($getNextIdQuery);
     $nextid="";
