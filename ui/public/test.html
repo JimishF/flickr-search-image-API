@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Imgur Upload Test</title>
+        <title>Upload Your Rangoli</title>
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
@@ -10,54 +10,274 @@
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>          
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>          
 
+        <script src="./service/color-thief.js"></script>
+        <script src="./service/ntc.js"></script>
+        
         <style>
+
             #image_preview, #image_preview_2 {
                 max-width: 200px;
             }
+               
+               .input-field input[type=text]:focus + label {
+                 color: #1565C0;
+               }
+               .input-field input[type=email]:focus + label {
+                 color: #1565C0;
+               }
+               .input-field input[type=number]:focus + label {
+                 color: #1565C0;
+               }
+               
+               
+               .input-field input[type=text]:focus {
+                 border-bottom: 1px solid #1565C0;
+                 box-shadow: 0 1px 0 0 #1565C0;
+               }
+                .input-field input[type=email]:focus {
+                 border-bottom: 1px solid #1565C0;
+                 box-shadow: 0 1px 0 0 #1565C0;
+               }
+                .input-field input[type=number]:focus {
+                 border-bottom: 1px solid #1565C0;
+                 box-shadow: 0 1px 0 0 #1565C0;
+               }
+               .picker__date-display{
+                background-color:  #1565c0;
+               }
+                .picker__weekday-display{
+                    background-color: #0d47a1;
+                }
+                .picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected{
+                    background-color: #0d47a1;
+                }
+                .picker__close, .picker__today{
+                    color: #0d47a1;   
+                }
+                .picker__close:active, .picker__today:active{
+                    color: #bbdefb;   
+                }
+                input[type="checkbox"].filled-in:checked+label:after {
+                        top: 0;
+                        width: 20px;
+                        height: 20px;
+                        border: 2px solid #0d47a1;
+                        background-color: #0d47a1;
+                        z-index: 0;
+                }
+                .dropdown-content li>a, .dropdown-content li>span{
+                    color: #0d47a1;
+                }
+                .form-container{
+                    padding: 30px;margin-top:10px;height: 100%;overflow-x: hidden;
+                }
         </style>
     </head>
-    <body>
-        <div class="container">
-        <h1>Imgur Upload Test</h1>
+    <body style="overflow-x: hidden;overflow-y: auto;">
+    <div class="navbar-fixed">
+      <nav class="z-depth-6 the-top-nav ">
+    <div class="nav-wrapper n_bg">
+    <div class="nav-ico-left-pad">
+      <a href="#!" class="brand-logo no_fi"><i class="material-icons">wb_sunny</i>My Rangoli</a>
+      <ul class="right hide-on-med-and-down">
+       <!--  <li><a href="sass.html"><i class="material-icons">search</i></a></li>
+        <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
+        <li><a href="collapsible.html"><i class="material-icons">refresh</i></a></li>
+        <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li> -->
+      </ul>
+    </div>
+    </div>
+   </nav>
+   </div>
+    <div class="bg-main-back"></div>
         
-            <div class="row">
-                <div class="col s12 m6 l6">
-                    
-                <div class="file-field input-field">
-                  <div class="btn blue darken-3">
-                    <span>Rangoli Photo</span>
-                        <input type="file" id="image_selector" />
-                  </div>
-                  <div class="file-path-wrapper">
-                    <input class="file-path" type="text">
-                  </div>
-                </div>
+    <form id="mainForm">
+       
+    <div class="container form-container white">
+          <div class="container">
+                <div class="row">
+                        <h2>Submit your Best Rangoli </h2>
+                    </div>
+            
+                <div class="row">
+
+                        <div class="col s12  input-field">
+                            <input id="text" type="text" name="text" class="validate" length="100">
+                            <label for="text">Describe Rangoli in short</label>
+                        </div>
+                <div class="col s6">
                 
-                <div style="height: 15px;" class="progress blue lighten-5">
-                  <div  class="determinate blue darken-3"></div>
-                </div>
-                </div>
-        
-                <input type="text" id="title" placeholder="Describe Rangoli" name="">
-                <h2>Image Preview:</h2>
+                    <div class="row">
 
-        <!--         <img src="none" id="image_preview" />
-                <h2>Image On Imgur:</h2> -->
-                <img src="none" id="image_preview_2" />
-            </div>
+                        <div class="col s12 input-field">
+                            <h6>Rangoli is on Theme..</h6>
+                                <p>
+                                  <input type="checkbox" name="ganesha" class="filled-in" id="ganesha" />
+                                  <label for="ganesha">Ganesha</label>
+                                </p>
+                                <p>
+                                  <input type="checkbox" name="cndia"  class="filled-in" id="cndia" />
+                                  <label for="cndia">Candle / Diya</label>
+                                </p>
+                                <p>
+                                  <input type="checkbox" name="thm_text" class="filled-in" id="thm_text" />
+                                  <label for="thm_text">Text </label>
+                                </p>
+                                <p>
+                                  <input type="checkbox" name="peacock" class="filled-in" id="peacock" />
+                                  <label for="peacock">Peacock</label>
+                                </p>
+                        </div>
+                        
+                        <div class="file-field  col s12  input-field">
+                              <div id="btnselfile" class="btn blue col s12 ">
+                                <span>Select Rangoli Photo</span>
+                                    <input type="file" id="image_selector" />
+                              </div>
+
+                            <div style="height: 15px;" class="progress blue lighten-5">
+                              <div  class="determinate blue darken-3"></div>
+                          </div>
+                      </div>
+                      
+                   </div>
+                </div>
+                <div class="col s6">
+
+                      <div class="col s6 " style="width: 240px;height: 250px; margin-top: 20px;">
+                            <div class="col s12 m12 l12"><div class="card"><div class="card-image " style="width: 250;height: 250;overflow: hidden;" > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="width: 100%;overflow: hidden;" id='image_preview'> <div class="card-content">Rangoli preview</div></div></div></div>
+                        </div>        
+
+                </div>
+                </div>
         </div>
+    </div>
+     <div class="container white z-depth-1 form-container" >
+            <div class="container">
+                    <div class="row">
+                        <h5>Fill up Details to Contact with you</h5>
+                    </div>
+                
+                  <div class="row">
+                    <form class="col s12">
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="first_name" name="first_name" type="text" class="validate requited" required="">
+                          <label for="first_name">First Name</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="last_name" name="last_name" type="text" data-error-requited="lolx" class="validate requited" required="">
+                          <label for="last_name">Last Name</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <input id="email" name="email" type="email" class="validate requited" required="">
+                          <label for="email">Email</label>
+                        </div>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+                        <div class="input-field col s6">
+                          <input id="phone" name="phone" type="number" min="1000000000" class="validate requited" required="">
+                          <label for="phone">Contact Number</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input type="date" name="bdate" id="bdate" class="datepicker">
+                            <label for="bdate" class="active">Birth date</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="city" name="city" type="text" class="validate requited" required="">
+                          <label for="city">City</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                          <input id="prof" name="prof" type="text" class="prof requited" required="" >
+                          <label for="prof">Profession</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <input id="pin" name="pin" type="text" class="validate">
+                          <label for="pin">Pin code</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                          <input type="checkbox" name="wupdate" class="filled-in" id="wupdate" checked="checked" />
+                          <label for="wupdate">Get Creative Updates on whatapp</label>
+                        
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="study" name="study" type="text" class="study requited" required="">
+                            <label for="study">Study</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn blue darken-4 waves-effect waves-light col s12"> Participate in Competition </button>
+                            <hr>
+                            <small style="margin-left: 5px;" class="grey-text text-darken-2">By clicking on this, you agree with<a> terms &amp; conditions </a> of competition. </small>   
+                        </div>
+                    </div>
+                  </div>
+
+         </div>
+    </div>
+    </form>
+
+        <footer class="page-footer blue darken-3">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">My Rangoli Contest</h5>
+                <p class="grey-text text-lighten-4">Upload Your Best Rangoli and win amazing Prices.</p>
+              </div>
+            
+            </div>
+          </div>
+          <div class="footer-copyright blue darken-4">
+            <div class="container">
+            © 2014 Copyright myrangoli.com
+            <!-- <a class="grey-text text-lighten-4 right" href="#!">vi</a> -->
+            </div>
+          </div>
+        </footer>
+            
+
         <script>
-            $("#image_selector").change(function() {
+        STATE = {
+            validRedirect : true,
+            photox : false,
+        };
+
+$(document).ready(function(){
+
+        $(".progress").hide(100);
+
+        $(window).bind('beforeunload', function(){
+            if( !STATE.validRedirect )
+            {
+                return 'Data will be destroyed. Are you sure you want to leave?';
+            }
+        });
+
+            $("#image_selector").change(function(ex) {
+                
+                $("#btnselfile").attr("disabled","");
+                $("#btnselfile").text("Uploading..");
+                $(".progress").show(100);
+                
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
                     var data = e.target.result.substr(e.target.result.indexOf(",") + 1, e.target.result.length);
                     $("#image_preview").attr("src", e.target.result);
 
-                    
+                    return;
+
                     // console.log(data);
                     $.ajax({
                         url: 'https://api.imgur.com/3/image',
@@ -71,6 +291,7 @@
                         },
                        
                         xhr: function() {
+                            STATE.photox = false;
                             var xhr = new window.XMLHttpRequest();
 
                             xhr.upload.addEventListener("progress", function(evt) {
@@ -83,10 +304,10 @@
                                 console.log(percentComplete);
                                 if (percentComplete === 100) 
                                 {
-
                                     console.log("Rangoli submitted, done..");
+                                    $("#btnselfile").text("Uploaded");
+                                    $(".progress").hide(100);
                                 }
-
                               }
                             }, false);
 
@@ -97,14 +318,16 @@
                             var title   = $("#title").text();
                             var url     = response.data.link;
                             var sq_url  = response.data.link;
+
                             sq_url = sq_url.replace(".png","b.png");
                             sq_url = sq_url.replace(".jpg","b.jpg");
                             sq_url = sq_url.replace(".jpeg","b.jpeg");
                             sq_url = sq_url.replace(".bmp","b.bmp");
                             sq_url = sq_url.replace(".tiff","b.tiff");
-
-                            $.post("./service/newimage.php",{ title:title,imgUrl:url,source:'i',sq_url:sq_url });
-                            $("#image_preview_2").attr("src", response.data.link);
+                            
+                            STATE.photox = true;
+                            
+                            // $("#image_preview_2").attr("src", response.data.link);
 
                         }, error: function() {
                             alert("Error while uploading...");
@@ -113,6 +336,62 @@
                 };
                 reader.readAsDataURL(this.files[0]);
             });
+                    jQuery.validator.setDefaults({
+                          // debug: true,
+                          success: "valid"
+                        });
+                        $("#mainForm").validate({
+                          rules: {
+                            field: {
+                              required: true,
+                              step: 10
+                            }
+                          },
+                           errorPlacement: function(error, element) {
+                            $(element).closest('label').remove();
+                           }
+                      });
+
+                $("#mainForm").submit(function(){
+                    if( $(this).valid() ){
+                        console.log($(this).serialize());
+                    // $.post("./service/newimage.php",{ title:title,imgUrl:url,source:'i',sq_url:sq_url,f_data =  });
+                    }
+                     return false;
+                });
+
+                $("#image_preview").click(function(e){
+                    e.stoppropagation();
+                    return;
+                    // alert("lol");
+                });
+                
+                $('input#input_text').characterCounter();
+
+                  $('.datepicker').pickadate({
+                    selectMonths: true, 
+                    selectYears: 80,
+                    max:new Date()
+                  });
+
+                  $('input.prof').autocomplete({
+                    data: {
+                        "Student":null,
+                        "Housewife":null,
+                        "Service":null
+                    }
+                });
+
+                  $('input.study').autocomplete({
+                    data: {
+                        "School": null,
+                        "College ":null,
+                        "Graduate":null,
+                        "Post Graduate":null 
+                    }
+                });
+
+})       
         </script>
     </body>
 </html>

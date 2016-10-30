@@ -13,24 +13,23 @@
 	    PDO::ATTR_EMULATE_PREPARES   => false,
 	];
 	$pdo = new PDO($dsn, $user, $pass, $opt);
-	$lim_start = $_POST['current'];
-	$ar = array();
-	$f_ar = array();
-	$f_ar['current'] = $lim_start + 16; 
-	// $stmt = $pdo->query('SELECT * from photos where del_status = 0 ORDER BY RAND() LIMIT 16');
-	$stmt = $pdo->query('SELECT * from photos where del_status = 0 LIMIT '.$lim_start.','.$f_ar['current'].' ');
-		while ($row = $stmt->fetch())
-		{
-		    array_push($ar, $row );
-		}
+	//$lim_start = $_POST['current'];
+	
 
-	// foreach ($ar as $key => $value) {
-	// 	# code...
-	// }
-	// print_r( $ar );
+	// // $stmt = $pdo->query('SELECT * from photos where del_status = 0 ORDER BY RAND() LIMIT 16');
+	// $stmt = $pdo->query('SELECT * from photos where del_status = 0 LIMIT '.$lim_start.','.$f_ar['current'].' ');
+	// 	while ($row = $stmt->fetch())
+	// 	{
+	// 	    array_push($ar, $row );
+	// 	}
 
-	$f_ar["data"] =$ar;
-		header('Content-type: application/json');
+	// // foreach ($ar as $key => $value) {
+	// // 	# code...
+	// // }
+	// // print_r( $ar );
+
+	// $f_ar["data"] =$ar;
+	// 	header('Content-type: application/json');
 		echo json_encode($f_ar);
 	// exit;
  ?>
