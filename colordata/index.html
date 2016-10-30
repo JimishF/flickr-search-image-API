@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="">
+  <style type="text/css">
+
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript" src="./js/color-thief.js"></script>
+  <script type="text/javascript" src="./js/ntc.js"></script>
+  <script type="text/javascript">
+  
+      $(document).ready(function () { 
+        //call strating 
+        setAndReturn();
+      });
+    function pushAndNext(I,dh,dc,ph,pc){
+      $.post("../pushAndNext.php",
+              {
+                id: I,
+                dominant_hex: dh,
+                dominant_color: dc,
+                palette_hex: JSON.stringify(ph),
+                palette_color: JSON.stringify(pc)
+              },
+              function(data,status){
+                    console.log(data);                
+                  if(data!=""){
+                    //retrive new id
+                    changeSrc(data);
+                  }
+              });
+    }
+    function setAndReturn(ids){
+      if (typeof(ids)=='undefined'){
+        ids = "30299413520";
+        changeSrc(ids);
+      }
+      
+    }
+    function changeSrc(srcId){
+      var image = document.getElementById('lol');
+      image.src="../res/imgs/"+srcId+".jpg";
+      image.alt=srcId;
+     // getInfo(srcId);
+    }
+    function getInfo(ids){
+      var image = document.getElementById('lol');
+ 			image.crossOrigin = "Anonymous";
+    	var colorThief = new ColorThief();
+      var dominantArray=colorThief.getColor(image);
+      var dominantHex=rgbToHex(dominantArray[0],dominantArray[1],dominantArray[2]);
+      var n_match  = ntc.name("#"+dominantHex);
+      var dominantColor=n_match[1];
+      var paletteHex=[];
+    	console.log(dominantColor);
+      var pelleteArray=colorThief.getPalette(image);  
+      var paletteColorArray=[];    
+      for(var i=0;i<9;i++){
+        paletteHex[i] = rgbToHex(pelleteArray[i][0],pelleteArray[i][1],pelleteArray[i][2]);
+        var nmatch  = ntc.name("#"+paletteHex[i]);
+        paletteColorArray.push(nmatch[1]);
+      }
+      console.log(JSON.stringify(paletteColorArray));
+      console.log(JSON.stringify(paletteHex));
+      //post the data
+      pushAndNext(ids,dominantHex,dominantColor,paletteHex,paletteColorArray);
+    }
+    function rgbToHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
+    function toHex(n) {
+    n = parseInt(n,10);
+    if (isNaN(n)) return "00";
+    n = Math.max(0,Math.min(n,255));
+    return "0123456789ABCDEF".charAt((n-n%16)/16)
+          + "0123456789ABCDEF".charAt(n%16);
+    }
+  </script>
+</head>
+<body>
+<img src="" id="lol" height="150" width="150" alt="30299413520" onload="getInfo(this.alt);">
+</body>
+</html>

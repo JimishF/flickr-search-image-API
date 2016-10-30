@@ -1,4 +1,5 @@
 <?php
+    set_time_limit(-1);
     $dbhost = 'localhost:3306';
     $dbuser = 'root';
     $dbpass = '';
@@ -9,15 +10,16 @@
     }
 
     mysql_select_db('myrangoli');
-    $query = "SELECT * FROM photos";
+    $query = "SELECT * FROM `photos`";
     $result = mysql_query($query);
     //iterate over all the rows
+    $i=1;
     while($row = mysql_fetch_assoc($result)){
-        //iterate over all the fields
-        foreach($row as $key => $val){
-            //generate output
-            echo $key . ": " . $val."~";
-        }
-        echo "<br/>";
+        $id=$row["id_from_src"];
+        $url=str_replace("_z","_q",$row["imgUrl"]);
+
+        echo $i++."-".$url."<br/>";
+        $img=file_get_contents($url);
+        file_put_contents("./res/imgs/".$id.".jpg",$img);
     }
 ?>
