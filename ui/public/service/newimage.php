@@ -1,5 +1,7 @@
 <?php 
-
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+ 	header("location:/");
+}
 	include 'conn.php';
 	$conn = mysqli_connect($dbhost, $dbuser, $dbpass,'myrangoli');
 

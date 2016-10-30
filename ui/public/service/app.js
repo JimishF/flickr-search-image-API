@@ -67,6 +67,7 @@ function imgloaded( self ){
 				STATE.isLoading = true;
 		   	}				   	
 		   	$("#loading").show();	
+			$("#noResults").hide();
 			
 			$.post("./service/",{text:STATE.text,current:STATE.current,current:STATE.current}).done(function(d){
 				 STATE.isLoading = false; func(d);  
@@ -83,15 +84,20 @@ function imgloaded( self ){
 		   				console.log("loading..");
 			   			setTimeout(function(){
 			   				data = dx.data;
-			   				for (var i = 0; i < data.length; i++)
-			   				{
-			   					// console.log(data[i]);
-			   					var newCard = document.createElement('div');
-			   					var ref = data[i].id;
-			   					$(newCard).attr("class","col s6 m4 l3");
-			   					var htm = '<div class="card"><div class="card-image "><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="init_load_img" />  <img src="'+parseSquare(data[i].imgUrl)+'" style="display:none" onload="imgloaded(this)" class="final_load_img materialboxed" /> <div class="card-content">'+data[i].title +'</div></div></div>';
-			   						$(newCard).html( htm );
-								   		$("#mainData").append($(newCard));		
+			   				if( data.length > 0){
+
+				   				for (var i = 0; i < data.length; i++)
+				   				{
+				   					// console.log(data[i]);
+				   					var newCard = document.createElement('div');
+				   					var ref = data[i].id;
+				   					$(newCard).attr("class","col s6 m4 l3");
+				   					var htm = '<div class="card"><div class="card-image "><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="init_load_img" />  <img src="'+parseSquare(data[i].imgUrl)+'" style="display:none" onload="imgloaded(this)" class="final_load_img materialboxed" /> <div class="card-content">'+data[i].title +'</div></div></div>';
+				   						$(newCard).html( htm );
+									   		$("#mainData").append($(newCard));		
+				   				}
+			   				}else{
+			   					$("#noResults").show();
 			   				}
 			   				$("#loading").hide();		
 			   			},0);		
@@ -118,6 +124,21 @@ function imgloaded( self ){
 			});
 		});
 
+		$('#searchform').on('submit',function(e){
+			
+			$("#mainData").html("");
+			$("#loading").show();
+			STATE.text = $("#searchText").val();
+			STATE.isFirst = true;
+			STATE.last = 0;
+			STATE.current = 0;
+
+			console.log(STATE.text);
+			$('main').trigger('scroll');
+			return false;
+
+		
+		});
 		$('body').on('click','.btn-undo',function(){
 
 			$(this).attr("disabled","");
