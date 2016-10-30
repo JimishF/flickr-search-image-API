@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Imgur Upload Test</title>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+        <link rel="stylesheet" href="./assets/style.css">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>          
+
+        <style>
+            #image_preview, #image_preview_2 {
+                max-width: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <h1>Imgur Upload Test</h1>
+        
+            <div class="row">
+                <div class="col s12 m6 l6">
+                    
+                <div class="file-field input-field">
+                  <div class="btn blue darken-3">
+                    <span>Rangoli Photo</span>
+                        <input type="file" id="image_selector" />
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path" type="text">
+                  </div>
+                </div>
+                
+                <div style="height: 15px;" class="progress blue lighten-5">
+                  <div  class="determinate blue darken-3"></div>
+                </div>
+                </div>
+        
+                <input type="text" id="title" placeholder="Describe Rangoli" name="">
+                <h2>Image Preview:</h2>
+
+        <!--         <img src="none" id="image_preview" />
+                <h2>Image On Imgur:</h2> -->
+                <img src="none" id="image_preview_2" />
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>
+            $("#image_selector").change(function() {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var data = e.target.result.substr(e.target.result.indexOf(",") + 1, e.target.result.length);
+                    $("#image_preview").attr("src", e.target.result);
+
+                    
+                    // console.log(data);
+                    $.ajax({
+                        url: 'https://api.imgur.com/3/image',
+                        headers: {
+                            'Authorization': 'Client-ID bd64ae40cbb0f86'
+                        },
+                        type: 'POST',
+                        data: {
+                            'image': data,
+                            'type': 'base64'
+                        },
+                       
+                        xhr: function() {
+                            var xhr = new window.XMLHttpRequest();
+
+                            xhr.upload.addEventListener("progress", function(evt) {
+                              if (evt.lengthComputable) {
+                                var percentComplete = evt.loaded / evt.total;
+                                percentComplete = parseInt(percentComplete * 100);
+                                /* update status bar */
+                                $('.determinate').css("width",percentComplete+"%");
+
+                                console.log(percentComplete);
+                                if (percentComplete === 100) 
+                                {
+
+                                    console.log("Rangoli submitted, done..");
+                                }
+
+                              }
+                            }, false);
+
+                            return xhr;
+                          },
+                        success: function(response) {
+
+                            var title   = $("#title").text();
+                            var url     = response.data.link;
+                            var sq_url  = response.data.link;
+                            sq_url = sq_url.replace(".png","b.png");
+                            sq_url = sq_url.replace(".jpg","b.jpg");
+                            sq_url = sq_url.replace(".jpeg","b.jpeg");
+                            sq_url = sq_url.replace(".bmp","b.bmp");
+                            sq_url = sq_url.replace(".tiff","b.tiff");
+
+                            $.post("./service/newimage.php",{ title:title,imgUrl:url,source:'i',sq_url:sq_url });
+                            $("#image_preview_2").attr("src", response.data.link);
+
+                        }, error: function() {
+                            alert("Error while uploading...");
+                        }
+                    });
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+        </script>
+    </body>
+</html>

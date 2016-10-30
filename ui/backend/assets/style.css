@@ -1,0 +1,75 @@
+html,
+body {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 100%;
+}
+nav {
+    display: all;
+}
+.n_bg {
+    background: url(./n_bg_small.jpg);
+}
+#loading {
+    height: 200px;
+}
+.card-content {
+    white-space: nowrap;
+    height: 40px;
+    text-overflow: ellipsis !important;
+    overflow: hidden;
+    padding: 10px !important;
+    width: 90%;
+}
+.bg-main-back {
+    background: url(./bg_hex.jpg);
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(1px);
+    -moz-filter: blur(1px);
+    -webkit-filter: blur(1px);
+    -o-filter: blur(1px);
+    transition: all 2s linear;
+    -moz-transition: all 2s linear;
+    -webkit-transition: all 2s linear;
+    -o-transition: all 2s linear;
+    opacity: 0.4;
+}
+.the-top-nav {} .second-nav {} .nav-ico-left-pad {
+    margin-left: 14px;
+}
+.brand-logo {
+    font-weight: 700;
+}
+.card {
+    overflow: hidden !important;
+}
+.card-image {
+    overflow: hidden !important;
+}
+.modal {
+    height: 80%;
+}
+main {
+    z-index: 800;
+    padding-top: 15px;
+    height: 80%;
+    width: 100%;
+    overflow-y: scroll;
+}
+.del-act {
+    position: absolute;
+    z-index: 10;
+    margin-left: 80%;
+}
+.circle-clipper .circle {
+    border-width: 7px !important;
+}
+.modal {
+    height: 80% !important;
+    max-height: 100%;
+    width: 70%;
+}
