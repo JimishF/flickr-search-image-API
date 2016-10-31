@@ -3,7 +3,6 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
  	header("location:/");
 }
 include 'conn.php';
-try{
 
 
 	$host = $dbhost;
@@ -11,14 +10,18 @@ try{
 	$user = $dbuser;
 	$pass = $dbpass;
 	$charset = 'utf8';
+// "mysql:host=$servername;port=8889;dbname=AppDatabase", $username, $password
 
-	$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+	$dsn = "mysql:host=$host;port=3306;dbname=$db;charset=$charset";
+try{
+	
 	$opt = [
 	    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
 	    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 	    PDO::ATTR_EMULATE_PREPARES   => false,
 	];
 	$pdo = new PDO($dsn, $user, $pass, $opt);
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$lim_start = $_POST['current'];
 	$ar = array();
 	$f_ar = array();
@@ -74,7 +77,7 @@ try{
 	// exit;
 	// $stmt = $pdo->query('SELECT * from photos where del_status = 0 ORDER BY RAND() LIMIT 16');
 
-		} catch ( $e ){
+		} catch ( Exception $e ){
 			print_r($e);
 			echo $e->getMessage();
 		}

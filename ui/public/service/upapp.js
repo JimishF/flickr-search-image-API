@@ -170,6 +170,7 @@ $(document).ready(function(){
                         $("#sbmtbtn").text("Submittied");
 
                             alert("Rangoli Has been Submittied. Our Best Wishes are with you for win !!");
+                            window.location.href = "/";
                         });
                     }
                      return false;

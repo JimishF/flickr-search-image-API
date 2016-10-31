@@ -84,7 +84,7 @@ function imgloaded( self ){
 		   				console.log("loading..");
 			   			setTimeout(function(){
 			   				data = dx.data;
-			   				if( data.length > 0){
+			   				if( data.length!= undefined && data.length > 0){
 
 				   				for (var i = 0; i < data.length; i++)
 				   				{
