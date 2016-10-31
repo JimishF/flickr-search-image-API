@@ -56,6 +56,10 @@ function imgloaded( self ){
 		// 		alert("popup");
 		// });
 
+	var path = window.location.pathname;
+	var page = path.split("/").pop();
+	console.log( page );
+	
 		function loadxim( func ){
 			if ( STATE.isLoading )
 			{	

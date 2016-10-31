@@ -1,9 +1,11 @@
 <?php 
+error_reporting(E_ALL); ini_set('display_errors', 1); 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
  	header("location:/");
 }
 	include 'conn.php';
-	$conn = mysqli_connect($dbhost, $dbuser, $dbpass,'myrangoli');
+	$conn = mysqli_connect($dbhost, $dbuser, $dbpass,'myrangoli') or die(mysqli_error($conn));
+
 
 	$STATE = $_POST['state_data'];
 	$id = $STATE['res']['id'];
@@ -85,4 +87,9 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 		// echo json_encode($f_ar);
 	// exit;
 	echo "done";
+	
+// } catch (Exception $e) {
+// 	print_r($e);
+// 	echo $e->getMessage();
+// }
  ?>
